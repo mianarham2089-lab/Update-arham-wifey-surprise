@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayesha's Birthday Surprise ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Dancing+Script:wght@700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: radial-gradient(circle, #0f0f0f 0%, #1a1a1a 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #f3e5ab; overflow-x: hidden; }
+        
+        .card-container { background: rgba(20, 20, 20, 0.95); border: 2px solid #d4af37; border-radius: 20px; padding: 25px 20px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); position: relative; }
+        .page { display: none; width: 100%; animation: slideIn 0.5s ease-out; }
+        .page.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        h2 { font-family: 'Cinzel', serif; color: #d4af37; margin-bottom: 15px; }
+        .btn { background: linear-gradient(45deg, #d4af37, #aa7c11); color: #000; border: none; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-weight: 700; margin-top: 15px; transition: 0.3s; }
+        .btn:hover { transform: scale(1.05); }
+
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 1.1rem; line-height: 2.3; margin-bottom: 20px; color: #fff; max-height: 300px; overflow-y: auto; padding: 10px; }
+        .letter-content { font-size: 0.95rem; line-height: 1.8; text-align: left; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border-left: 3px solid #d4af37; }
+        
+        .memory-img { width: 100%; max-height: 280px; object-fit: contain; border-radius: 15px; border: 2px solid #d4af37; margin: 10px 0; }
+        .subtitle { font-family: 'Dancing Script', cursive; font-size: 1.3rem; color: #ffd700; margin-top: 10px; }
+
+        /* Animated Air & Candles */
+        #cake-box { width: 150px; height: 100px; background: #d4af37; margin: 30px auto 10px; border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+        .candle { font-size: 1.5rem; letter-spacing: 5px; transition: 0.5s; }
+        .flame-out { opacity: 0; transform: translateY(-10px); }
+        
+        .air-animation { display: none; font-size: 2rem; position: absolute; top: -30px; animation: blowAir 1s forwards; }
+        @keyframes blowAir { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; } 100% { opacity: 0; transform: scale(1.5); } }
+
+        /* Room & Balloons */
+        .room-bg { background: linear-gradient(180deg, #2c1a32 0%, #110914 100%); border: 2px dashed #d4af37; border-radius: 15px; padding: 20px 10px; position: relative; min-height: 250px; overflow: hidden; }
+        .balloon-area { display: flex; justify-content: space-around; font-size: 2.5rem; margin-top: 20px; }
+        .balloon { cursor: pointer; transition: transform 0.2s; display: inline-block; animation: float 2s infinite alternate; }
+        .balloon:active { transform: scale(1.3); }
+        @keyframes float { from { transform: translateY(0px); } to { transform: translateY(-15px); } }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop><source src="song.mp3" type="audio/mpeg"></audio>
+
+    <!-- Page 0: Lock -->
+    <div class="card-container page active" id="page-0">
+        <h2>Arham ki Wifey... ❤️</h2>
+        <input type="password" id="pinInput" placeholder="Enter Pin" style="background:transparent; border: 1px solid #d4af37; color:white; padding:10px; width:80%; text-align:center; border-radius:10px;">
+        <br><button class="btn" onclick="checkPin()">Unlock 🔑</button>
+    </div>
+
+    <!-- Page 1: Welcome -->
+    <div class="card-container page" id="page-1">
+        <h2>Welcome Madam Jii! ✨</h2>
+        <p>Tayar ho surprise ke liye?</p>
+        <button class="btn" onclick="nextPage(2)">Next ➡️</button>
+    </div>
+
+    <!-- Page 2: Candle Blowing -->
+    <div class="card-container page" id="page-2">
+        <h2>Blow the Candles! 🕯️</h2>
+        <div id="cake-box">
+            <div id="candles" class="candle">🕯️🕯️🕯️</div>
+            <div id="air" class="air-animation">🌬️💨</div>
+            <div style="font-family:'Dancing Script'; color:#000; font-weight:bold;">Ayesha</div>
+        </div>
+        <p style="font-size:0.85rem; margin-top:10px; color:#ffd700;">Button press karke mooh se phoonk maro 🌬️</p>
+        <button class="btn" onclick="blowCandle()">Phoonk Maro! 🌬️</button>
+    </div>
+
+    <!-- Page 3: Age Reveal -->
+    <div class="card-container page" id="page-3">
+        <h2>OFFICIALLY 17! 🎉</h2>
+        <p style="color:#d4af37; font-weight:bold;">20 August 2026</p>
+        <button class="btn" onclick="nextPage(4)">Enter Birthday Room 🎈</button>
+    </div>
+
+    <!-- Page 4: Birthday Room & Balloons -->
+    <div class="card-container page" id="page-4">
+        <div class="room-bg">
+            <h2 style="font-size: 1.4rem;">Happy Birthday Ayesha! 🎉</h2>
+            <p style="font-size: 0.8rem; color:#f3e5ab;">Balloons par tap karke unhe phorain! 🎈</p>
+            <div class="balloon-area">
+                <span class="balloon" onclick="popBalloon(this)">🎈</span>
+                <span class="balloon" onclick="popBalloon(this)">🎈</span>
+                <span class="balloon" onclick="popBalloon(this)">🎈</span>
+                <span class="balloon" onclick="popBalloon(this)">🎈</span>
+            </div>
+        </div>
+        <button class="btn" onclick="nextPage(5)">Reels Memories 📸</button>
+    </div>
+
+    <!-- Page 5: Reels Section -->
+    <div class="card-container page" id="page-5">
+        <h2>Our Memories 📲</h2>
+        <img src="chat-memories.jpg" alt="Reels" class="memory-img">
+        <p class="subtitle">Reels Sending Partner & Life Partner 💖</p>
+        <button class="btn" onclick="nextPage(6)">More Attacks 😆</button>
+    </div>
+
+    <!-- Page 6: Personal Attacks -->
+    <div class="card-container page" id="page-6">
+        <h2>Attacks 😂</h2>
+        <img src="personal-attacks.jpg" alt="Attacks" class="memory-img">
+        <p class="subtitle">Madam G ky personal attacks 💘</p>
+        <button class="btn" onclick="nextPage(7)">See More 🫠</button>
+    </div>
+
+    <!-- Page 7: Mnany ka Tareeqa -->
+    <div class="card-container page" id="page-7">
+        <h2>The Art of Sorry 🫠</h2>
+        <img src="manany-ka-tareeqa.jpg" alt="Mnany ka Tareeqa" class="memory-img">
+        <p class="subtitle">Madam g ky mnany ka tareeqa 🫠👀</p>
+        <button class="btn" onclick="nextPage(8)">Dream Land 😴</button>
+    </div>
+
+    <!-- Page 8: Madam Ke Khwab -->
+    <div class="card-container page" id="page-8">
+        <h2>Wildest Dreams 😴👻</h2>
+        <img src="madam-ke-khwab.jpg" alt="Khwab" class="memory-img">
+        <p class="subtitle">Madam g ky khwab jis mai mai hr dfa kuch glt kr deta hon 🤧😕</p>
+        <button class="btn" onclick="nextPage(9)">Read Poetry 🥀</button>
+    </div>
+
+    <!-- Page 9: Poetry -->
+    <div class="card-container page" id="page-9">
+        <h2>Mere Lafz Aapke Liye 🥀</h2>
+        <div class="urdu-text">
+            چاند ستارے پھول پرندے شام سویرا ایک طرف۔۔۔<br>
+            ساری دنیا اُسکا جلوہ اُسکا چہرہ ایک طرف ۔۔۔💐✨<br><br>
+            حُسن تو کچھ دیر کا تماشا ہے میری جان،<br>❤️‍🩹 وفاداری تو پوری عمر کا تقاضا ہے۔ ✨🥀<br><br>
+            عورت مخلص پالی ہے جو ہر طرف سے وفادار ہے<br>مطلب یہ کہ میں بھی سلطنت جیت گیا ہوں۔
+        </div>
+        <button class="btn" onclick="nextPage(10)">My Letter 💌</button>
+    </div>
+
+    <!-- Page 10: Letter -->
+    <div class="card-container page" id="page-10">
+        <h2>A Special Message 💌</h2>
+        <div class="letter-content">
+            Happy Birthday to My Wifey, Ayesha! ❤️<br><br>
+            You are the most beautiful part of my life. Insha'Allah main ek din apko apna mehram bana loonga.<br><br>
+            Stay with me, stay blessed. I love you so much!<br><br>
+            <strong>- Arham</strong>
+        </div>
+        <button class="btn" onclick="nextPage(11)">Special Gift 🍫</button>
+    </div>
+
+    <!-- Page 11: Gift Section -->
+    <div class="card-container page" id="page-11">
+        <h2>Meri Wifey Ke Liye Chota Sa Gift 🎁</h2>
+        <img src="chocolates.jpg" alt="Chocolates" class="memory-img">
+        <p style="font-size: 0.9rem; margin-top: 10px;">Asli wali bhi don ga lekin abhi aap paas nahi ho... Lays bhi khilaon ga 🤭🫣</p>
+        <button class="btn" onclick="nextPage(12)">Next ➡️</button>
+    </div>
+
+    <!-- Page 12: Question -->
+    <div class="card-container page" id="page-12">
+        <h2>Ek Sawal... 🙈</h2>
+        <p>Aap mere sath khush ho na? 🥺❤️</p>
+        <button class="btn" onclick="nextPage(13)">Haan! 🥰</button>
+        <button class="btn" id="noBtn" onmouseover="moveNo()" onclick="moveNo()">Nahi 😢</button>
+    </div>
+
+    <!-- Page 13: Final Confession -->
+    <div class="card-container page" id="page-13">
+        <h2>I Want To Say Something... ❤️</h2>
+        <p style="font-size: 1rem; line-height:1.7; margin: 15px 0;">
+            I love you so much! Aap meri pehli aur akhri muhabat ho. Insha'Allah aapko main apni wife banao ga. ❤️💍
+        </p>
+        <p style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #d4af37;">Always & Forever Yours, Arham</p>
+        <button class="btn" onclick="nextPage(0)">Repeat 🔄</button>
+    </div>
+
+    <script>
+        const CORRECT_PIN = "208910910";
+
+        function checkPin() {
+            if(document.getElementById('pinInput').value === CORRECT_PIN) { 
+                document.getElementById('bgMusic').play().catch(e => console.log("Audio waiting"));
+                nextPage(1); 
+            } else { 
+                alert("Wrong Pin!"); 
+            }
+        }
+
+        function nextPage(n) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-'+n).classList.add('active');
+        }
+
+        function blowCandle() {
+            const air = document.getElementById('air');
+            const candles = document.getElementById('candles');
+            air.style.display = 'block';
+
+            setTimeout(() => {
+                candles.style.opacity = '0.3';
+                candles.innerText = '💨💨💨';
+                confetti({ particleCount: 100, spread: 70 });
+            }, 600);
+
+            setTimeout(() => {
+                nextPage(3);
+            }, 1800);
+        }
+
+        function popBalloon(element) {
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
+            element.style.visibility = 'hidden';
+        }
+
+        function moveNo() {
+            const b = document.getElementById('noBtn');
+            b.style.position = 'absolute';
+            b.style.top = Math.random() * 80 + '%';
+            b.style.left = Math.random() * 80 + '%';
+        }
+    </script>
+</body>
+</html>
+
